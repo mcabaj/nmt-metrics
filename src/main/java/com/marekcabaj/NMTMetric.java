@@ -1,4 +1,4 @@
-package com.lmig;
+package com.marekcabaj;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-import static com.lmig.NMTExtractor.COMMITTED_PROPERTY;
-import static com.lmig.NMTExtractor.RESERVED_PROPERTY;
+import static com.marekcabaj.NMTExtractor.COMMITTED_PROPERTY;
+import static com.marekcabaj.NMTExtractor.RESERVED_PROPERTY;
 
 @Component
 public class NMTMetric implements PublicMetrics {

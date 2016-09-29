@@ -1,12 +1,12 @@
-package com.lmig;
+package com.marekcabaj;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Map;
 
-import static com.lmig.NMTExtractor.COMMITTED_PROPERTY;
-import static com.lmig.NMTExtractor.RESERVED_PROPERTY;
+import static com.marekcabaj.NMTExtractor.COMMITTED_PROPERTY;
+import static com.marekcabaj.NMTExtractor.RESERVED_PROPERTY;
 import static org.junit.Assert.assertEquals;
 
 public class NMTExtractorTest {

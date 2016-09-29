@@ -1,4 +1,4 @@
-package com.lmig;
+package com.marekcabaj;
 
 import java.util.HashMap;
 import java.util.Map;
