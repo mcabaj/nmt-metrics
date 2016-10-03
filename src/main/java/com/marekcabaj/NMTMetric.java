@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.PublicMetrics;
 import org.springframework.boot.actuate.metrics.Metric;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -21,14 +22,18 @@ public class NMTMetric implements PublicMetrics {
     @Autowired
     private JcmdCommandRunner jcmdCommandRunner;
 
+    @Autowired
+    private ApplicationContext context;
+
     @Override
     public Collection<Metric<?>> metrics() {
-        logger.info("Adding NMT metrics");
+        logger.info("Adding NMT metrics to /metrics endpoint");
         NMTExtractor nmtExtractor = new NMTExtractor(jcmdCommandRunner.runNMTSummary());
         Map<String, Map<String, Integer>> nmtProperties = nmtExtractor.getNMTProperties();
         List<Metric<?>> metrics = new ArrayList<>();
 
-        if(nmtProperties.isEmpty()) {
+        if (nmtProperties.isEmpty()) {
+            logger.info("None NMT metric has been added to /metrics endpoint");
             return Collections.emptyList();
         }
 
@@ -37,10 +42,6 @@ public class NMTMetric implements PublicMetrics {
             metrics.add(new Metric<>(NMT_METRIC_PREFIX + category + "." + COMMITTED_PROPERTY, properties.get(COMMITTED_PROPERTY)));
             logger.debug("Added metrics for category : {}", category);
         });
-
-        metrics.add(new Metric<>(NMT_METRIC_PREFIX + "total." + RESERVED_PROPERTY, nmtExtractor.getTotal().get(RESERVED_PROPERTY)));
-        metrics.add(new Metric<>(NMT_METRIC_PREFIX + "total." + COMMITTED_PROPERTY, nmtExtractor.getTotal().get(COMMITTED_PROPERTY)));
-        logger.debug("Added metrics for category : total");
 
         return metrics;
     }

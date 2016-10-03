@@ -61,7 +61,7 @@ public class NMTExtractorTest {
 
     @Test
     public void testGetTotal() throws Exception {
-        Map<String, Integer> properties = nmtExtractor.getTotal();
+        Map<String, Integer> properties = nmtExtractor.getNMTProperties().get("total");
         assertEquals(1470626, properties.get(RESERVED_PROPERTY).intValue());
         assertEquals(170826, properties.get(COMMITTED_PROPERTY).intValue());
     }

@@ -12,16 +12,16 @@ import java.io.IOException;
 import java.util.Scanner;
 
 @Component
-public class JcmdCommandRunner {
+class JcmdCommandRunner {
 
     private final Logger logger = LoggerFactory.getLogger(JcmdCommandRunner.class);
     private static String os = System.getProperty("os.name").toLowerCase();
     private static boolean isUnix = os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0;
     private static boolean isWindows = os.indexOf("win") >= 0;
-    private static String JCMD_CMD = "./jcmd";
+    private static String JCMD_CMD;
 
     @PostConstruct
-    public void init() {
+    private void init() {
         if (isUnix) {
             JCMD_CMD = "./jcmd";
         } else if (isWindows) {
@@ -34,26 +34,27 @@ public class JcmdCommandRunner {
     @Autowired
     private Environment environment;
 
-    public String runNMTSummary() {
+    String runNMTSummary() {
         return runJcmdCommand("VM.native_memory summary");
     }
 
-    public String runNMTBaseline() {
+    String runNMTBaseline() {
         return runJcmdCommand("VM.native_memory baseline");
     }
 
     private String runJcmdCommand(String command) {
         ProcessBuilder builder = new ProcessBuilder(JCMD_CMD, environment.getProperty("PID"), command);
         builder.directory(new File(environment.getProperty("java.home") + File.separator + "bin"));
-        logger.info("Running command : {}, in directory : {}", builder.command().toString(), builder.directory().toString());
+        String cmd = builder.command().toString();
+        logger.info("Running command : {}", cmd);
         builder.redirectErrorStream(true);
         try {
             Process process = builder.start();
             String output = readCommandOutput(process);
-            logger.info("Command output : {}", output);
+            logger.debug("Output of command {} : {}", cmd, output);
             return output;
         } catch (IOException e) {
-            logger.error("Error while starting command : {}, in directory : {}", builder.command().toString(), builder.directory().toString(), e);
+            logger.error("Error while starting command : {}", cmd, e);
         }
 
         return null;
