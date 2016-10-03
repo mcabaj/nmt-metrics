@@ -20,7 +20,7 @@ then you can use it as dependency in your `pom.xml` :
 
 # Usage
 
-This dependency is meant to be used in Spring Boot application so you need to have this parent declaration in your `pom.xml` : 
+This dependency is meant to be used in Spring Boot application so you need to have this parent declaration in your `pom.xml` 
 
 ```
 <parent>
