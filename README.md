@@ -126,4 +126,5 @@ thread:
 ### Leveraging NMT in Cloud Foundry
 
 Push your application with the following environment variable and therafter collect the logs via the NMT Property handling code below or via simple shell script that curls the `/metrics` actuator endpoint.
+
 `JAVA_OPTS: -Djava.security.egd=file:///dev/urandom -XX:NativeMemoryTracking=summary -XX:+PrintHeapAtGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps`
