@@ -1,6 +1,6 @@
 **NMT = Native Memory Tracking** (https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr007.html)
 
-** Important : Native Memory Tracking is enabled from Java 8 ***
+** Important : Native Memory Tracking is enabled from Java 8 **
 
 # Local installation
 
