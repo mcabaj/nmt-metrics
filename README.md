@@ -56,6 +56,35 @@ public class Handler implements NMTPropertiesHandler {
 }
 ```
 
+`properties` map has following structure : 
+
+```
+categoryName1:
+	property1:100
+	property2:300
+categoryName2:
+	property1:500
+	property2:0
+
+...
+
+```
+
+Real example : 
+
+```
+java.heap:
+	committed:286720
+	reserved:4167680
+thread:
+	committed:39659
+	reserved:39659
+
+...
+
+```
+
+
 ### Adding NMT properties to Spring Boot actuator `/metrics` endpoint
 
 You don't need to write any code to add NMT properties to `/metrics` endpoint. You just need to add following dependecies : 
