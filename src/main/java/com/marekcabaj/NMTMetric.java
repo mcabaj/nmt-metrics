@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.PublicMetrics;
 import org.springframework.boot.actuate.metrics.Metric;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import static com.marekcabaj.NMTExtractor.COMMITTED_PROPERTY;
 import static com.marekcabaj.NMTExtractor.RESERVED_PROPERTY;
 
 @Component
+@ConditionalOnProperty(value = "nmt.metrics.enabled", matchIfMissing = true)
 public class NMTMetric implements PublicMetrics {
 
     private final Logger logger = LoggerFactory.getLogger(NMTMetric.class);
