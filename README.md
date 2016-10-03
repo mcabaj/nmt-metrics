@@ -1,4 +1,4 @@
-# NMT = Native Memory Tracking of Container memory for Java Apps
+﻿# NMT = Native Memory Tracking of Container memory for Java Apps
 
 ## What does this Library do ?
 This library adds custom [native memory tracking](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr007.html) metrics to the `/metrics` spring boot endpoint.  
@@ -126,5 +126,9 @@ thread:
 ### Leveraging NMT in Cloud Foundry
 
 Push your application with the following environment variable and therafter collect the logs via the NMT Property handling code below or via simple shell script that curls the `/metrics` actuator endpoint.
+
+`JAVA_OPTS: -XX:NativeMemoryTracking=summary`
+
+or for more details :
 
 `JAVA_OPTS: -Djava.security.egd=file:///dev/urandom -XX:NativeMemoryTracking=summary -XX:+PrintHeapAtGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps`
