@@ -11,6 +11,9 @@ Diagnosing and debugging OOM errors with Java applications in Cloud Foundry or i
 
 # Usage
 
+1. Start the JVM with command line option: `-XX:NativeMemoryTracking=summary`. To get a more detailed view of native memory usage, start the JVM with command line option: `-XX:NativeMemoryTracking=detail`.
+2. To add the native memory statistics to the spring boot `/metrics` actuator endpoint follow the steps below. To periodically report/export statistics to your favorite monitoring solution implement the  `NMTPropertiesHandler` component explained below.
+
 ### Local installation
 
 To build this library and install to your local maven repo run this :
@@ -125,7 +128,7 @@ You may want to analyze and post the NMT metrics to a  custom monitoring solutio
 
 ### Leveraging NMT in Cloud Foundry
 
-Push your application with the following environment variable and thereafter collect the logs via the NMT Property handling code below or via simple shell script that curls the `/metrics` actuator endpoint.
+Push your application with the `-XX:NativeMemoryTracking=summary` environment variable and thereafter collect the logs via the NMT Property handling code below or via simple shell script that curls the `/metrics` actuator endpoint.
 
 `JAVA_OPTS: -XX:NativeMemoryTracking=summary`
 
