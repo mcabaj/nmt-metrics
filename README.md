@@ -1,4 +1,4 @@
-﻿#  Native Memory Tracking (NMT) of Container memory for Java Apps
+﻿# Native Memory Tracking (NMT) of Container memory for Java Applications
 
 ## What does this Library do ?
 This library adds custom [native memory tracking](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr007.html) metrics to the `/metrics` spring boot endpoint.  
@@ -9,12 +9,7 @@ In a bare-metal  or a virtualized VM environment, deploying an app to WebSphere,
 
 Diagnosing and debugging OOM errors with Java applications in Cloud Foundry or in any container based platform like Cloud Foundry, Kubernetes or Docker is difficult. The OS level metrics are often confusing and don't provide any insight unless you are an expert in Linux system internals [spring-boot-memory-performance](https://spring.io/blog/2015/12/10/spring-boot-memory-performance). Like David Syer, I recommend relying on the diagnostics provided by the JVM to track down OOM memory leaks. The verbose GC logs provide insight into the heap portion of container memory. There are a variety of tools available{ [HeapAnalyzer](http://www.eclipse.org/mat/), [gceasy](http://gceasy.io/), [pmat](http://ibm.co/1pUjktc) } to triage and analyze java heaps and verbose GC logs; however getting any insight into native aka non-heap portion of the memory is very difficult.  The native memory tracking introduced in the JDK from Java 8 provides valuable insight into the portion of the memory (iceberg) under the heap (water).  The key element of debugging native OOMs is to understand the metrics report and chart the trend-lines to understand the leaking contributor.
 
-# Usage
-
-1. Start the JVM with command line option: `-XX:NativeMemoryTracking=summary`. To get a more detailed view of native memory usage, start the JVM with command line option: `-XX:NativeMemoryTracking=detail`.
-2. To add the native memory statistics to the spring boot `/metrics` actuator endpoint follow the steps below. To periodically report/export statistics to your favorite monitoring solution implement the  `NMTPropertiesHandler` component explained below.
-
-### Local installation
+# Build & Install
 
 To build this library and install to your local maven repo run this :
 
@@ -47,6 +42,12 @@ This dependency is meant to be used in Spring Boot application so you need to ha
 </dependency>
 
 ```
+
+# Usage
+
+1. Start the JVM with command line option: `-XX:NativeMemoryTracking=summary`. To get a more detailed view of native memory usage, start the JVM with command line option: `-XX:NativeMemoryTracking=detail`.
+2. To add the native memory statistics to the spring boot `/metrics` actuator endpoint follow the steps below. To periodically report/export statistics to your favorite monitoring solution implement the  `NMTPropertiesHandler` component explained below.
+
 
 ### Adding NMT properties to Spring Boot actuator `/metrics` endpoint
 
@@ -128,7 +129,7 @@ You may want to analyze and post the NMT metrics to a  custom monitoring solutio
 
 ### Leveraging NMT in Cloud Foundry
 
-Push your application with the `-XX:NativeMemoryTracking=summary` environment variable and thereafter collect the logs via the NMT Property handling code below or via simple shell script that curls the `/metrics` actuator endpoint.
+cf push your application with the `-XX:NativeMemoryTracking=summary` environment variable and thereafter collect the logs via the NMT Property handling code below or via simple shell script that curls the `/metrics` actuator endpoint.
 
 `JAVA_OPTS: -XX:NativeMemoryTracking=summary`
 
