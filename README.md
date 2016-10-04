@@ -13,7 +13,7 @@ Diagnosing and debugging OOM errors with Java applications in Cloud Foundry or i
 
 ### Local installation
 
-To install this dependency to your local maven repo run this :
+To build this library and install to your local maven repo run this :
 
 ```
 mvn clean install
@@ -69,57 +69,59 @@ nmt.metrics.enabled=false
 
 ### Using scheduled NMT properties handling
 
-If you want to read NMT properties in scheduled manner then you need to define 2 properties in your Spring Boot `application.properties` :
+You may want to analyze and post the NMT metrics to a  custom monitoring solution like NewRelic or post to a OpenTSDB database, then you need to follow the steps below:
 
-```
-nmt.scheduler.enabled=true
-nmt.scheduler.delay=5000
-```
-
-* By default (when `nmt.scheduler.enabled` property is missing) the scheduled NMT properties reading is disabled
-* By default (when `nmt.scheduler.delay` property is missing) delay is 60000 (1 minute)
-* Delay should be specified in milliseconds.
-
-To handle NMT properties reads you need to implement `NMTPropertiesHandler` and mark your class with `@Component` :
-
-```
-@Component
-public class Handler implements NMTPropertiesHandler {
-
-    @Override
-    public void handleNMTProperties(Map<String, Map<String, Integer>> properties) {
-        // handle properties here
-    }
-}
-```
-
-`properties` map has following structure :
+1. Define 2 properties in your Spring Boot `application.properties` :
 
   ```
-  categoryName1:
-  	property1:100
-  	property2:300
-  categoryName2:
-  	property1:500
-  	property2:0
-
-  ...
-
+  nmt.scheduler.enabled=true
+  nmt.scheduler.delay=5000
   ```
 
-Real example :
+  * By default (when `nmt.scheduler.enabled` property is missing) the scheduled NMT properties reading is disabled
+  * By default (when `nmt.scheduler.delay` property is missing) delay is 60000 (1 minute)
+  * Delay should be specified in milliseconds.
+
+1. To handle NMT properties reads you need to implement `NMTPropertiesHandler` and mark your class with `@Component` :
 
   ```
-  java.heap:
-  	committed:286720
-  	reserved:4167680
-  thread:
-  	committed:39659
-  	reserved:39659
+  @Component
+  public class Handler implements NMTPropertiesHandler {
 
-  ...
-
+      @Override
+      public void handleNMTProperties(Map<String, Map<String, Integer>> properties) {
+          // handle properties here
+      }
+  }
   ```
+
+  `properties` map has following structure :
+
+    ```
+    categoryName1:
+    	property1:100
+    	property2:300
+    categoryName2:
+    	property1:500
+    	property2:0
+
+    ...
+
+    ```
+
+  Real example :
+
+    ```
+    java.heap:
+    	committed:286720
+    	reserved:4167680
+    thread:
+    	committed:39659
+    	reserved:39659
+
+    ...
+
+    ```
 
 ### Leveraging NMT in Cloud Foundry
 
